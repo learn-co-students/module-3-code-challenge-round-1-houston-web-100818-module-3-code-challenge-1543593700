@@ -48,12 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let commentArray = imageObj.comments
     commentArray.forEach(function(comment){
       let newCommentLi = document.createElement('li')
-      newCommentLi.innerHTML = comment.content
+      newCommentLi.innerHTML = `${comment.content} <button data-id='${comment.id}'>delete</button>`
+      newCommentLi.querySelector('button').addEventListener('click', deleteComment)
       newCommentLi.id = comment.id 
-        commentsUl.append(newCommentLi)
+
+      commentsUl.append(newCommentLi)
     })
   }
-
 
   function addLike() {
     fetch(likeURL, {
@@ -83,8 +84,20 @@ function addComment(e) {
       content: newComment
     })
   }).then(r => {return r.json()}).then(fetchImage)
-
 }
+
+function deleteComment(e) {
+  let deleteId = e.target.dataset.id
+
+  fetch(commentsURL + `/${deleteId}`, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type':'application/json'
+    }
+  }).then(r => {return r.json()}).then(fetchImage)
+}
+
 })
 
 
