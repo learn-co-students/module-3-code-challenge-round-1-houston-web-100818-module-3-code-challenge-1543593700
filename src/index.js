@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetchImage()
 
-  let commentArray = imageObj.comments
-
 
   likeButton.addEventListener('click', addLike)
   commentForm.addEventListener('submit', addComment, false)
@@ -55,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderComments() {
+    commentsUl.innerHTML= ``
     let commentArray = imageObj.comments
     commentArray.forEach(function(comment){
       let newCommentLi = document.createElement('li')
@@ -64,9 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  function renderNewComment() {
-
-  }
 
   function addLike() {
     fetch(likeURL, {
