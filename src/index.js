@@ -29,13 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function render() {
+    console.log(imgObject)
     image.setAttribute('src', imgObject.url)
     name.innerHTML = imgObject.name
     likes.innerHTML = imgObject.like_count
     likeButton.addEventListener('click', addLike)
+    commentForm.addEventListener('submit', submitComment)
 
     imgObject.comments.forEach((comment)=>{
-      commentList.innerHTML = ''
+      // commentList.innerHTML = ''
       const commentItem = document.createElement('li')
       commentItem.innerHTML = comment.content
       commentList.append(commentItem)
@@ -56,6 +58,30 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       body: JSON.stringify({
         image_id: imageId
+      })
+    })
+    .then(fetchImg)
+  }
+
+  function submitComment() {
+    newComment = {
+      "image_id": imgObject.id,
+      "content": commentInput.value
+    }
+    imgObject.comments.push(newComment)
+    updateComments(newComment)
+  }
+
+  function updateComments(comment) {
+    fetch(commentsURL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image_id: comment.image_id,
+        content: comment.content
       })
     })
     .then(fetchImg)
