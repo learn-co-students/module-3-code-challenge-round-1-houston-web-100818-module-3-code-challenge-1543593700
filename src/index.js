@@ -6,12 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   let likes = document.getElementById('likes')
   let commentsUl = document.getElementById('comments')
+  let likeButton = document.getElementById('like_button')
 
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
   const likeURL = `https://randopic.herokuapp.com/likes/`
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
-  
+  likeButton.addEventListener('click', addLike)
 
   fetch(imageURL).then(function(r){
     return r.json()
@@ -21,6 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   function render() {
+    renderImageData()
+    renderComments()
+  }
+
+  function renderImageData() {
     let myImage = document.getElementById('image')
     myImage.src = imageObj.url
     myImage.dataset.id = imageId
@@ -28,13 +34,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('name').innerHTML = imageObj.name
     likes.innerHTML = imageObj.like_count
 
+    
+  }
+
+  function renderComments() {
     let commentArray = imageObj.comments
     commentArray.forEach(function(comment){
       let newCommentLi = document.createElement('li')
       newCommentLi.innerHTML = comment.content
       newCommentLi.id = comment.id 
-      commentsUl.append(newCommentLi)
+      if (newCommentLi.id !== commentsUl.firstChild.id) {
+        commentsUl.append(newCommentLi)
+      }
     })
+  }
+
+  function addLike() {
+    fetch(likeURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: imageObj.like_count += 1
+    }).then(renderImageData)
   }
 })
 
