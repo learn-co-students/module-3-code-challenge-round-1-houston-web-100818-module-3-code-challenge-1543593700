@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
   const likeURL = `https://randopic.herokuapp.com/likes`
   const commentsURL = `https://randopic.herokuapp.com/comments`
+  const deleteURL = `https://randopic.herokuapp.com/comments/`
 
   // DOM ELEMENTS
   const qs = function(id) {
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return comment !== commentToDelete
     })
     render()
-    fetch(`https://randopic.herokuapp.com/comments/${commentToDelete.id}`, {
+    fetch(deleteURL + `${commentToDelete.id}`, {
       method: 'DELETE'
     })
   }
