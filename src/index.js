@@ -29,15 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  function fetchNoComments() {
-    fetch(imageURL).then(function(r){
-      return r.json()
-    }).then(data => {
-      imageObj = data
-      renderImageData()
-    })
-  }
-
   function render() {
     renderImageData()
     renderComments()
@@ -74,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify({
         image_id: imageId
     })
-  }).then(r => {return r.json()}).then(fetchNoComments)
+  }).then(r => {return r.json()}).then(fetchImage)
 }
 
 function addComment(e) {
