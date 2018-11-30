@@ -52,8 +52,8 @@ const render = (i) => {
     let listItem = document.createElement('li')
     listItem.innerText = c.content
     commentsList.append(listItem)
-    makeDeleteButton(listItem)
-    listItem.append(deleteButton)
+    // makeDeleteButton(listItem)
+    // listItem.append(deleteButton)
   })
 
   submitButton.addEventListener('click', (e) => {
@@ -87,10 +87,10 @@ const addComment = () => {
     setTimeout( () => {
       listItem.innerHTML = `${commentText}`
     }, 1200)
-    setTimeout( () => {
-      makeDeleteButton(listItem)
-      listItem.append(deleteButton)
-    }, 1210)
+    // setTimeout( () => {
+    //   makeDeleteButton(listItem)
+    //   listItem.append(deleteButton)
+    // }, 1210)
     fetch('https://randopic.herokuapp.com/comments', {
       method: 'POST',
       headers: {
@@ -106,16 +106,17 @@ const addComment = () => {
   else {alert('please type in your comment, we are not psychic 🔮')}
 }
 
-const makeDeleteButton = (comment) => {
-  deleteButton = document.createElement('button')
-  deleteButton.innerText = 'X'
-  deleteButton.style.width = '20px'
-  deleteButton.style.padding = '1px'
-  deleteButton.style.margin = '10px'
-  deleteButton.style.background = 'rgb(247, 150, 150)'
-  deleteButton.addEventListener('click', (e) => {
-    fetch(`https://randopic.herokuapp.com/comments/${comment.id}`, {
-    method: 'DELETE'})
-    .then(fetchImg)
-  })
-}
+// const makeDeleteButton = (comment) => {
+//   deleteButton = document.createElement('button')
+//   deleteButton.innerText = "X"
+//   deleteButton.style.width = '20px'
+//   deleteButton.style.padding = '1px'
+//   deleteButton.style.margin = '10px'
+//   deleteButton.style.background = 'rgb(247, 150, 150)'
+//
+//   // deleteButton.addEventListener('click', (e) => {
+//   //   fetch(`https://randopic.herokuapp.com/comments/${comment.id}`, {
+//   //   method: 'DELETE'})
+//   //   .then(fetchImg)
+//   // })
+// }
