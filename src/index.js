@@ -9,6 +9,7 @@ const commentFormSubmit = document.querySelector('[type="submit"]');
 let myImage;
 
 let imageId = 1556;
+let barbId = 1551; //lol
 
 const imageURL = `https://randopic.herokuapp.com/images/${imageId}`;
 const likeURL = `https://randopic.herokuapp.com/likes/`;
@@ -86,7 +87,7 @@ const updateComments = function(content) {
       image_id: imageId,
       content: content
     })
-  });
+  }).then(fetchInfo);
 };
 
 const deleteComment = function(comment) {
