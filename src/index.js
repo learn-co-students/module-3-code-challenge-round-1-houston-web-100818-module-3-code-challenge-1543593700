@@ -32,15 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
     image.setAttribute('src', imgObject.url)
     name.innerHTML = imgObject.name
     likes.innerHTML = imgObject.like_count
+    likeButton.addEventListener('click', addLike)
 
     imgObject.comments.forEach((comment)=>{
+      commentList.innerHTML = ''
       const commentItem = document.createElement('li')
       commentItem.innerHTML = comment.content
       commentList.append(commentItem)
     })
   }
 
+  function addLike() {
+    imgObject.like_count++
+    updateLikes(imgObject.id)
+  }
 
+  function updateLikes(imageId) {
+    fetch(likeURL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image_id: imageId
+      })
+    })
+    .then(fetchImg)
+  }
 
   fetchImg()
 })
