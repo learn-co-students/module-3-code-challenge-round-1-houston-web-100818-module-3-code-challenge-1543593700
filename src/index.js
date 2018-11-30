@@ -12,14 +12,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const likeURL = `https://randopic.herokuapp.com/likes/`
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
+  fetchImage()
+
   likeButton.addEventListener('click', addLike)
 
-  fetch(imageURL).then(function(r){
-    return r.json()
-  }).then(data => {
-    imageObj = data
-    render()
-  })
+  function fetchImage() { 
+    fetch(imageURL).then(function(r){
+      return r.json()
+    }).then(data => {
+      imageObj = data
+      render()
+    })
+  }
+
+  function fetchNoComments() {
+    fetch(imageURL).then(function(r){
+      return r.json()
+    }).then(data => {
+      imageObj = data
+      renderImageData()
+    })
+  }
 
   function render() {
     renderImageData()
@@ -33,8 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('name').innerHTML = imageObj.name
     likes.innerHTML = imageObj.like_count
-
-    
   }
 
   function renderComments() {
@@ -43,9 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let newCommentLi = document.createElement('li')
       newCommentLi.innerHTML = comment.content
       newCommentLi.id = comment.id 
-      if (newCommentLi.id !== commentsUl.firstChild.id) {
         commentsUl.append(newCommentLi)
-      }
     })
   }
 
@@ -53,11 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(likeURL, {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type':'application/json'
       },
-      body: imageObj.like_count += 1
-    }).then(renderImageData)
-  }
+      body: JSON.stringify({
+        image_id: imageId
+    })
+  }).then(r => {return r.json()}).then(fetchNoComments)
+
+
+}
 })
 
 
