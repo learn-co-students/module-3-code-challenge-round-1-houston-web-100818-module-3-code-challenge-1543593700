@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let imageLikes = document.querySelector('#likes')
   const likeButton = document.querySelector('#like_button')
   const commentInput = document.querySelector('#comment_input')
-  const commentSubmitButton = document.querySelector('submit')
+  const commentSubmitButton = document.querySelector('#submit')
   const commentsList = document.querySelector('#comments')
 
   const render = function(){
@@ -40,30 +40,34 @@ document.addEventListener('DOMContentLoaded', () => {
     //EVERY CLICK IS DOUBLING OUTPUT
     imageLikes.innerHTML = ''
     imageLikes.innerHTML = image.like_count
-    likeButton.addEventListener('click', function (e) {
-      e.preventDefault()
-      console.log('hitting event')
-      imageLikes + 1
-      updateLikes()
-      render()
-    })
   }
+  
+  likeButton.addEventListener('click', function (e) {
+    e.preventDefault()
+    console.log('hitting event')
+    updateLikes()
+    render()
+  })
 
   const renderComments = function(image){
     commentsList.innerHTML = ''
-    console.log(image.comments)
+    // console.log(image.comments)
     image.comments.forEach(function(comment){
       commentListItem = document.createElement('li')
       commentListItem.innerHTML = comment.content
       commentsList.append(commentListItem)
     })
-
-    commentSubmitButton.addEventListener('click', function(){
+    // console.log(commentSubmitButton)
+  }
+      commentSubmitButton.addEventListener('click', function(e){
+        e.preventDefault()
+        commentContent = commentInput.value
+        console.log(commentContent)  
         addComment()
         // commentList = ''
+        
         render()
-    })
-  }
+      })
 
 
   const updateLikes = function(){
@@ -79,15 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const addComment = function(){
-    fetch(commentURL, {
+    fetch(commentsURL, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body:JSON.stringifgy({
-        image_id: imageID,
-        content: commentInput
+      body:JSON.stringify({
+        image_id: imageId,
+        content: commentContent
       })
     }).then(render)
   }
