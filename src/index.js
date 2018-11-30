@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // DATA
   let imageId = 1557 //Enter the id from the fetched image here
   let myImage
-  let likes
-  let comments
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
   const likeURL = `https://randopic.herokuapp.com/likes`
   const commentsURL = `https://randopic.herokuapp.com/comments`
@@ -28,10 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.json()
     })
     .then(function(result) {
-      // console.log(result)
       myImage = result
-      likes = myImage.like_count
-      comments = myImage.comments
       render()
     })
 
@@ -55,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderCommentList = function() {
     commentList.innerHTML = ''
-    comments.forEach(function(comment) {
+    myImage.comments.forEach(function(comment) {
       const commentListItem = commentList.appendChild(document.createElement('li'))
       commentListItem.innerText = comment.content + " "
       renderDeleteButton(comment, commentListItem)
@@ -75,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageObj = {
       image_id: imageId
     }
-    likes++
+    myImage.like_count++
     render()
     saveImage(likeURL, imageObj)
   }
@@ -85,13 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
       content: commentInput.value,
       image_id: imageId
     }
-    comments.push(imageObj)
+    myImage.comments.push(imageObj)
     render()
     saveImage(commentsURL, imageObj)
   }
 
   const deleteComment = function(commentToDelete) {
-    comments = comments.filter(function(comment) {
+    myImage.comments = myImage.comments.filter(function(comment) {
       return comment !== commentToDelete
     })
     render()
