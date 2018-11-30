@@ -53,9 +53,11 @@ const renderImageInfo = function() {
     imageUlComments.append(commentLi);
     commentLi.innerText = comment.content;
     const commentDelete = document.createElement("button");
+    commentLi.append(commentDelete);
     commentDelete.innerText = "Delete";
     commentDelete.addEventListener("click", function(e) {
       console.log("delete button clicked");
+      deleteComment(comment);
     });
   });
 };
@@ -85,6 +87,12 @@ const updateComments = function(content) {
       content: content
     })
   });
+};
+
+const deleteComment = function(comment) {
+  fetch(`${commentsURL}${comment.id}`, {
+    method: "DELETE"
+  }).then(fetchInfo);
 };
 
 fetchInfo();
