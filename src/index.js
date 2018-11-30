@@ -1,4 +1,4 @@
-let imageId = 1; //Enter the id from the fetched image here
+let imageId = 1516; //Enter the id from the fetched image here
 
 const imageURL = `https://randopic.herokuapp.com/images/${imageId}`;
 const likeURL = `https://randopic.herokuapp.com/likes/`;
@@ -23,7 +23,7 @@ const fetchImage = function() {
       image = result;
       renderImage();
     });
-  fetchImage();
+  //fetchImage();
 };
 
 const renderImage = function() {
@@ -34,14 +34,27 @@ const renderImage = function() {
     image.like_count++;
   });
 
-  imageDiv.append(img, name, likes)
+  imageDiv.append(img, name, likes);
 
   commentsList.innerHTML = "";
   image.comments.forEach(function(comment) {
     let li = document.createElement("li");
     li.innerText = comment.content;
     commentsList.append(li);
+    increaseLikes();
   });
+
+  function increaseLikes(like) {
+    fetch("https://randopic.herokuapp.com/likes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify({ like })
+    })
+      .then(response => response.json())
+      .then(response => console.log(response));
+  }
 
   submitButton.addEventListener("click", function(e) {
     e.preventDefault();
@@ -50,11 +63,8 @@ const renderImage = function() {
   const commentForm = document.getElementById("comment_form");
   commentForm.addEventListener("submit", e => {
     e.preventDefault();
-    const comment = document.getElementById("comment_input");
+    const commentInput = document.getElementById("comment_input");
     const newComment = comment.value;
-});
-
- 
-});
+  });
+};
 fetchImage();
-
