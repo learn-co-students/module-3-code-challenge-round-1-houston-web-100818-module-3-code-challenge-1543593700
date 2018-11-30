@@ -34,8 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // PAGE RENDER FUNCTIONS
   const render = function() {
     renderImage()
-    renderCommentForm()
-    renderCommentList()
+    renderComments()
   }
 
   const renderImage = function() {
@@ -45,11 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     likesSpan.innerText = myImage.like_count
   }
 
-  const renderCommentForm = function() {
+  const renderComments = function() {
     commentInput.value = ''
-  }
-
-  const renderCommentList = function() {
     commentList.innerHTML = ''
     myImage.comments.forEach(function(comment) {
       const commentListItem = commentList.appendChild(document.createElement('li'))
