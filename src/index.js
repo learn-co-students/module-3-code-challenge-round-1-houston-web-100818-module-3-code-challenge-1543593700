@@ -3,11 +3,11 @@ let imageId = 1516; //Enter the id from the fetched image here
 const imageURL = `https://randopic.herokuapp.com/images/${imageId}`;
 const likeURL = `https://randopic.herokuapp.com/likes/`;
 const commentsURL = `https://randopic.herokuapp.com/comments/`;
-const imageDiv = document.querySelector("#image-card");
+const imageDiv = document.querySelector("#image_card");
 const img = document.querySelector("#image");
 const name = document.querySelector("#name");
 const likes = document.querySelector("#likes");
-const likeButton = document.querySelector("#like-button");
+const likeButton = document.querySelector("#like_button");
 const commentsList = document.querySelector("#comments");
 const submitButton = document.querySelector("#submit");
 
@@ -26,15 +26,18 @@ const fetchImage = function() {
   //fetchImage();
 };
 
+likeButton.addEventListener("click", function(e) {
+  image.like_count++;
+  renderImage();
+});
+
 const renderImage = function() {
   img.src = image.url;
   name.innerText = image.name;
   likes.innerText = image.like_count;
-  likeButton.addEventListener("click", function(e) {
-    image.like_count++;
-  });
 
   imageDiv.append(img, name, likes);
+  console.log(imageDiv);
 
   commentsList.innerHTML = "";
   image.comments.forEach(function(comment) {
@@ -50,10 +53,12 @@ const renderImage = function() {
       headers: {
         "Content-Type": "application/json; charset=utf-8"
       },
-      body: JSON.stringify({ like })
-    })
-      .then(response => response.json())
-      .then(response => console.log(response));
+      body: JSON.stringify({
+        image_id: `${imageId}`
+      })
+    });
+    // .then(response => response.json())
+    // .then(response => console.log(response));
   }
 
   submitButton.addEventListener("click", function(e) {
