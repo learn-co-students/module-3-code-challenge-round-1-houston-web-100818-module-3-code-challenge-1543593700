@@ -37,20 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // PAGE RENDER FUNCTIONS
   const render = function() {
-    imageTag.src = myImage.url
-    imageTag.dataset.id = myImage.id
-    imageName.innerText = myImage.name
-    likesSpan.innerText = likes
+    renderImage()
     renderCommentForm()
     renderCommentList()
   }
 
-  // const renderImage = function() {
-  //   imageTag.src = myImage.url
-  //   imageTag.dataset.id = myImage.id
-  //   imageName.innerText = myImage.name
-  //   likesSpan.innerText = myImage.like_count
-  // }
+  const renderImage = function() {
+    imageTag.src = myImage.url
+    imageTag.dataset.id = myImage.id
+    imageName.innerText = myImage.name
+    likesSpan.innerText = myImage.like_count
+  }
 
   const renderCommentForm = function() {
     commentInput.value = ''
